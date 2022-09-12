@@ -1,13 +1,59 @@
-const chalk = require('chalk');
-const getNotes = require('./notes.js');
+const yargs = require('yargs');
 
-// Process.argv -> argument vector this field allowed as to get procees vars
-const command = process.argv[2];
+// additional modules
+const handlers = require('./services/index');
 
-console.log(process.argv);
+// Commands config
+const CommandsConfig = [
+    {
+        command: 'add',
+        describe: 'Add a new note',
+        builder: {
+            title: {
+                describe: 'Note title',
+                demandOption: true, // required property
+                type: 'string'
+            },
+            body: {
+                describe: 'Note description',
+                demandOption: true,
+                type: 'string'
+            }
+        },
+        handler: handlers.addHandler
+    },
+    {
+        command: 'remove',
+        describe: 'Remove note by title',
+        builder: {
+            title: {
+                describe: 'Note title',
+                demandOption: true,
+                type: 'string'
+            },
+        },
+        handler: handlers.removeHandler
+    },
+    {
+        command: 'read',
+        describe: 'Read note by title',
+        builder: {
+            title: {
+                describe: 'Note title',
+                demandOption: true,
+                type: 'string'
+            },
+        },
+        handler: handlers.readHandler
+    },
+    {
+        command: 'list',
+        describe: 'Show notes',
+        handler: handlers.showNotesHandler
+    }
+];
 
-if (command === 'add') {
-    console.log('Adding note!');
-} else if (command === 'remove') {
-    console.log('Removing note!');
-}
+// Create commands
+CommandsConfig.forEach(conf => yargs.command(conf));
+
+yargs.parse();
