@@ -1,7 +1,7 @@
 import { iconsData } from './icons-mapping.js';
 
 class App {
-	apiUrl = 'http://localhost:3000/weather';
+	apiUrl = '/weather';
 	
 	form;
 

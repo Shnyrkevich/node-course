@@ -4,7 +4,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import hbs from 'hbs';
 import { fetchWeatherInfoByLocation } from './utils/weather.js';
-import { fetchLocation } from './utils/geocode.js'; 
+import { fetchLocation } from './utils/geocode.js';
+import config from './config.js'; 
 
 const logger = new Logger('Server app').init();
 
@@ -88,6 +89,6 @@ app.get('*', (req, res) => {
 	logger.info(`Move to error page: the route is not exist`);
 });
 
-app.listen(3000, () => {
-	logger.info(`Server is started on route ${3000}`);
+app.listen(config.port, () => {
+	logger.info(`Server is started on route ${config.port}`);
 });
