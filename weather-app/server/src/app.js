@@ -64,6 +64,7 @@ app.get('/weather', async (req, res) => {
 			res.send(data);
 			logger.info(`Weather forecast was get successfully for address: ${address}`);
 		} catch(e) {
+			logger.error(JSON.stringify(e));
 			logger.error(`Get weather data Error: ${e.message}`);
 		}
 });
