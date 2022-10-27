@@ -6,26 +6,7 @@ import hbs from 'hbs';
 import { fetchWeatherInfoByLocation } from './utils/weather.js';
 import { fetchLocation } from './utils/geocode.js'; 
 
-const logger = new Logger('Weather app').init();
-
-// async function getWeatherData() {
-// 	try {
-// 		// input your address via command line
-// 		const address = process.argv[2];  ь
-
-// 		if (!address) {
-// 			throw new Error('Any address wass provided, Please provide an address');
-// 		}
-
-// 		const coordinates = await fetchLocation('Minsk');
-// 		const data = await fetchWeatherInfoByLocation(coordinates);
-// 		console.log(data);
-// 	} catch(e) {
-// 		logger.error(`Get weather data Error: ${e.message}`);
-// 	}
-// }
-
-// getWeatherData();
+const logger = new Logger('Server app').init();
 
 const app = express();
 
@@ -50,6 +31,7 @@ app.get('/', (req, res) => {
 				title: 'Weather app',
 				name: 'Eugene Shnyrkevich'
 		});
+		logger.info('Render index page with form to get weather');
 });
 
 app.get('/about', (req, res) => {
@@ -57,6 +39,7 @@ app.get('/about', (req, res) => {
 				title: 'About Me',
 				name: 'Eugene Shnyrkevich'
 		});
+		logger.info('Render about page with my excelent photo');
 });
 
 app.get('/help', (req, res) => {
@@ -65,14 +48,26 @@ app.get('/help', (req, res) => {
 				helpText: 'I want to share with you a link',
 				link: 'https://www.udemy.com/course/the-complete-nodejs-developer-course-2/'
 		});
+		logger.info('Render help page with link to course');
 });
 
-app.get('/weather', (req, res) => {
-		res.send({
-				title: 'Weather by location',
-				forecast: 'It is snowing',
-				location: 'Philadelphia'
-		});
+app.get('/weather', async (req, res) => {
+		try {
+			if (!req.query.address) {
+				res.send({
+					code: 500,
+					message: 'Any address wass provided, Please provide an address'
+				});
+			}
+
+			const address = req.query.address;
+			const coordinates = await fetchLocation(address);
+			const data = await fetchWeatherInfoByLocation(coordinates);
+			res.send(data);
+			logger.info(`Weather forecast was get successfully for address: ${address}`);
+		} catch(e) {
+			logger.error(`Get weather data Error: ${e.message}`);
+		}
 });
 
 app.get('/help/*', (req, res) => {
@@ -80,7 +75,8 @@ app.get('/help/*', (req, res) => {
 		title: 'Errored request',
 		code: 404,
 		message: 'Help article not found'
-	})
+	});
+	logger.info(`Move to error page, help article not found`);
 })
 
 app.get('*', (req, res) => {
@@ -88,9 +84,10 @@ app.get('*', (req, res) => {
 		title: 'Errored request',
 		code: 404,
 		message: 'This page doesn\'t exist'
-	})
+	});
+	logger.info(`Move to error page: the route is not exist`);
 });
 
 app.listen(3000, () => {
-	console.log('Server started on port 3000');
+	logger.info(`Server is started on route ${3000}`);
 });

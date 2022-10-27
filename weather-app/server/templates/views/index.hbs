@@ -7,18 +7,24 @@
     <link rel="icon" href="/img/weather.png">
     <title>Main page</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <script src="/js/app.js"></script>
 </head>
 <body>
     {{>header}}
     <main>
-        <h1>{{title}}</h1>
         <p>
             This is a test web application with basic express setup for
             routing and rendering hbs templates.<br>Use this website to
             get weather by your location
         </p>
+        <form id="address-form">
+            <label for="address">Input your address:</label>
+            <input name="address" id="address" type="text" required>
+            <input type="submit">
+        </form>
+        <section class="weather-forecast">
+        </section>
     </main>
     {{>footer}}
+    <script type="module" src="/js/app.js"></script> 
 </body>
 </html>

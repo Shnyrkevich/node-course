@@ -1,4 +1,4 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 import config from '../config.js';
 import Logger from './logger.js';
 
@@ -10,15 +10,40 @@ export async function fetchWeatherInfoByLocation(location, metrics = 'm') {
 	}
 	
 	const placeCoordinates = location.join(',');
-	const response = await fetch(`http://api.weatherstack.com/current?access_key=${config.weatherStackToken}&query=${placeCoordinates}&units=${metrics}`);
-	const data = await response.json();
+	const { data } = await axios.get(`http://api.weatherstack.com/current?access_key=${config.weatherStackToken}&query=${placeCoordinates}&units=${metrics}`);
 
-	const { current: { temperature, feelslike, weather_descriptions } } = data;
-	logger.info(`${weather_descriptions}. The tempreature is ${temperature}, feels like ${feelslike}`);
+	if (!data.success && data.error) {
+		throw new Error(`Error with code ${data.error.code}, ${data.error.info}`);
+	}
+
+	const {
+		current:{
+			temperature,
+			feelslike,
+			weather_descriptions,
+			weather_code,
+			humidity,
+			wind_speed,
+			is_day
+		},
+		location: {
+			country,
+			region,
+			name
+		}
+	} = data;
+	logger.info(`Successfully got weather data`);
 
 	return {
 		description: weather_descriptions,
 		temperature,
-		feelslike
+		feelslike,
+		weather_code,
+		humidity,
+		wind_speed,
+		country,
+		region,
+		name,
+		is_day
 	};
 }
