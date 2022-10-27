@@ -11,16 +11,13 @@ const logger = new Logger('Server app').init();
 
 const app = express();
 
-// Way to get __filename, __diranme varibales by using module structure
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Creating paths to related folder with static/dinamic files
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views');
 const partialsPath = path.join(__dirname, '../templates/partials');
 
-// Set view engine to hbs type instead of html for dynamic rendering
 app.set('view engine', 'hbs');
 app.set('views', viewsPath);
 hbs.registerPartials(partialsPath);
