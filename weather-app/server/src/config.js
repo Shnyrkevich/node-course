@@ -11,5 +11,5 @@ export default {
 	
 	geolocationToken: getEnvVar('GEOLOCATION_TOKEN'),
 
-	port: getEnvVar('SERVER_PORT', 3000)
+	port: getEnvVar('PORT', 3000)
 };
