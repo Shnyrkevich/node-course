@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Chat-app</title>
+     <link rel="icon" href="/img/favicon.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.min.css">
+</head>
+
+<body>
+    <div class="chat">
+        <div class="chat__sidebar">
+
+        </div>
+        <div class="chat__main">
+            <h1>Chat-app (test)</h1>
+            <section class="chat-container">
+                <div class="chat-messages">
+
+                </div>
+                <div class="chat-form">
+                    <form id="user-form">
+                        <textarea
+                            name="user-message"
+                            id="user-message-input"
+                            cols="30"
+                            rows="4"
+                        ></textarea>
+                    </form>
+                    <div class="chart-form-actions">
+                        <button id="share-location">Share location</button>
+                        <button id="send">Send</button>
+                    </div>
+                </div>
+            </section>
+            {{>footer}}
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+    <script src="/js/app.js"></script>
+</body>
+
+</html>
