@@ -27,6 +27,11 @@ jobs:
     env:
       NODE_ENV: ci
       PORT: 3000
+      GOOGLE_CLIENT_ID: ${{secrets.GOOGLE_CLIENT_ID}}
+      GOOGLE_CLIENT_SECRET: ${{secrets.GOOGLE_CLIENT_SECRET}}
+      MONGO_URI: ${{vars.MONGO_URI}}
+      REDIS_URI: ${{vars.REDIS_URI}}
+      COOKIE_KEY: ${{secrets.COOKIE_KEY}}
  
     steps:
       - uses: actions/checkout@v2
@@ -41,6 +46,7 @@ jobs:
           npm run build
       - name: Start server
         run: |
+          cd advanced-example
           nohup npm run start &
           sleep 3
       - name: Run tests
