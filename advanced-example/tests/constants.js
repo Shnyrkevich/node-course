@@ -1,4 +1,4 @@
-const BASE_URL = `http://localhost:${process.env.PORT}`;
+const BASE_URL = `http://localhost:3000`;
 
 module.exports = {
 	BASE_URL,
